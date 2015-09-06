@@ -1,8 +1,13 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <p>Reddit username: {{ session['reddit_username'] }}</p>
-    <p>Minecraft username: {{ session['minecraft_username'] }}</p>
-    <p>Minecraft head: <img src="http://i.mc.buttscicl.es/f/{{ session['minecraft_username'] }}/32.png"></p>
-    <p><small>Incorrect? <a href="{{ url_for('index') }}">Retry</a></small></p>
-    <p>Correct? <a href="{{ url_for('flair_submit') }}">Submit!</a></p>
+    <p>
+      Reddit username: {{ session['reddit_username'] }}<br>
+      Minecraft username: {{ session['minecraft_username'] }}<br>
+      Minecraft head: <img src="http://i.mc.buttscicl.es/f/{{ session['minecraft_username'] }}/32.png" style="border: 1px solid #ffffff;">
+    </p>
+    <p>
+      <a class="button alert" href="{{ url_for('flair_retry') }}">Retry</a>
+      &nbsp;
+      <a class="button success" href="{{ url_for('flair_submit') }}">Submit!</a>
+    </p>
 {% endblock %}

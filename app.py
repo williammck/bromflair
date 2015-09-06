@@ -93,7 +93,20 @@ def flair_confirm():
     if 'minecraft_username' not in session:
         return redirect(url_for('minecraft_auth'))
 
-    return render_template('flair_confirm.html')
+    reddit_username = session['reddit_username']
+    minecraft_username = session['minecraft_username']
+
+    if reddit_username.lower() == minecraft_username.lower():
+        same_username = True
+    else:
+        same_username = False
+
+    return render_template('flair_confirm.html', same_username=same_username)
+
+@app.route('/flair/retry')
+def flair_retry():
+    session.clear()
+    return redirect(url_for('index'))
 
 @app.route('/flair/submit')
 def flair_submit():

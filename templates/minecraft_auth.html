@@ -1,21 +1,20 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <p>Reddit username: {{ session['reddit_username'] }}</p>
-    <br>
-    <p>Waiting for connection to identification server...</p>
-    <p>Connect to <code>id.brom.io</code> with the Minecraft user you want as your flair.</p>
-
-    <script src="https://js.pusher.com/2.2/pusher.min.js"></script>
-    <script>
-        var currentIp = "{{ ip }}";
-        var pusher = new Pusher('{{ config.get('PUSHER_KEY') }}', {
-            encrypted: true
-        });
-        var channel = pusher.subscribe('brom_id');
-        channel.bind('login', function(data) {
-            if (data.ip == currentIp) {
-                window.location = '{{ url_for('minecraft_callback') }}?data=' + data.data;
-            }
-        });
-    </script>
+  <p>
+    Waiting for connection to identification server...<br>
+    Connect to <code>id.brom.io</code> with the Minecraft user you want as your flair.
+  </p>
+  <script src="https://js.pusher.com/2.2/pusher.min.js"></script>
+  <script>
+    var currentIp = "{{ ip }}";
+    var pusher = new Pusher('{{ config.get('PUSHER_KEY') }}', {
+      encrypted: true
+    });
+    var channel = pusher.subscribe('brom_id');
+    channel.bind('login', function(data) {
+      if (data.ip == currentIp) {
+        window.location = '{{ url_for('minecraft_callback') }}?data=' + data.data;
+      }
+    });
+  </script>
 {% endblock %}
