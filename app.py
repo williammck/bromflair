@@ -77,9 +77,9 @@ def minecraft_callback():
     else:
         ip = request.remote_addr
 
-    #if minecraft_ip != ip:
-    #    error = 'IP Address differs.'
-    #    return render_template('error.html', error=error)
+    if minecraft_ip != ip:
+        error = 'IP Address differs.'
+        return render_template('error.html', error=error)
 
     session['minecraft_username'] = minecraft_username
     session['minecraft_ip'] = minecraft_ip
