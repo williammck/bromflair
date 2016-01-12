@@ -1,9 +1,7 @@
 {% extends 'layout.html' %}
 {% block content %}
-  <p>
-    Waiting for connection to identification server...<br>
-    Connect to <code>id.brom.io</code> with the Minecraft user you want as your flair.
-  </p>
+  Waiting for connection to identification server...<br>
+  Connect to <code>id.brom.io</code> with the Minecraft user you want as your flair.
   <script src="https://js.pusher.com/2.2/pusher.min.js"></script>
   <script>
     var currentIp = "{{ ip }}";

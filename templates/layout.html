@@ -1,48 +1,76 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en">
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BromFlair</title>
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/css/foundation.min.css" />
-    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/vendor/modernizr.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Brom</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">
     <style>
+      html {
+        min-height: 100%;
+      }
       body {
         background-image: url('{{ url_for('static', filename='img/background.jpg') }}');
         background-position: center center;
         background-size: cover;
       }
-      .row {
+      .card {
         background-color: rgba(0, 0, 0, 0.7);
-      }
-      h1, h3, p {
-        color: #ffffff;
+        border-color: rgba(0, 0, 0, 0.7);
       }
     </style>
   </head>
   <body>
-    <div class="row">
-      <div class="small-12 columns text-center">
-        <br>
-        <h1><img src="{{ url_for('static', filename='img/logo.png') }}"></h1>
-        <br>
-        <h3>Flair</h3>
-        {% block content %}{% endblock %}
+    <nav class="navbar navbar-full navbar-dark bg-inverse">
+      <a class="navbar-brand" href="https://brom.io">Brom</a>
+      <ul class="nav navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="https://brom.io">Servers</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{{ url_for('index') }}">Flair <span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </nav>
+    <br>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 text-xs-center">
+          <div class="card card-inverse">
+            <div class="card-block">
+              <h1><img src="{{ url_for('static', filename='img/logo.png') }}"></h1>
+              <br>
+              <h3 class="card-title">Flair</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 text-xs-center">
+          <div class="card card-inverse">
+            <div class="card-block">
+              <div class="card-text">
+                {% block content %}{% endblock %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 text-xs-center">
+          <div class="card card-inverse">
+            <div class="card-block">
+              <p class="card-text">
+                Issues? Contact <a href="https://www.reddit.com/message/compose?to=williammck">William McKinnerney</a>.
+                Avatars provided by <a href="https://crafatar.com">Crafatar</a>.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="small-12 columns text-center">
-        <hr>
-        <p>
-          Issues? Contact <a href="https://www.reddit.com/message/compose?to=williammck">William McKinnerney</a>.
-          Avatars provided by <a href="https://crafatar.com">Crafatar</a>.
-        </p>
-      </div>
-    </div>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/vendor/jquery.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/foundation.min.js"></script>
-    <script>
-      $(document).foundation();
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
   </body>
 </html>

@@ -1,13 +1,10 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <p>
-      Reddit username: {{ session['reddit_username'] }}<br>
-      Minecraft username: {{ session['minecraft_username'] }}<br>
-      Minecraft head: <img src="https://crafatar.com/avatars/{{ session['minecraft_uuid'] }}?size=32" style="border: 1px solid #ffffff;">
-    </p>
-    <p>
-      <a class="button alert" href="{{ url_for('flair_retry') }}">Retry</a>
-      &nbsp;
-      <a class="button success" href="{{ url_for('flair_submit') }}">Submit!</a>
-    </p>
+  <p>
+    Reddit username: {{ session['reddit_username'] }}<br>
+    Minecraft username: {{ session['minecraft_username'] }}<br>
+    Minecraft head: <img src="https://crafatar.com/avatars/{{ session['minecraft_uuid'] }}?size=32" style="border: 1px solid #ffffff;">
+  </p>
+  <a class="btn btn-danger" href="{{ url_for('flair_retry') }}">Retry</a>
+  <a class="btn btn-success" href="{{ url_for('flair_submit') }}">Submit!</a>
 {% endblock %}

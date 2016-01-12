@@ -1,8 +1,5 @@
 {% extends 'layout.html' %}
 {% block content %}
-  <p>
-    <a class="button" href="{{ url_for('minecraft_auth') }}">Add/Update Flair</a>
-    <br>
-    <a class="button alert" href="{{ url_for('flair_remove') }}">Remove Flair</a>
-  </p>
+  <a class="btn btn-primary" href="{{ url_for('minecraft_auth') }}">Add/Update Flair</a>
+  <a class="btn btn-danger" href="{{ url_for('flair_remove') }}">Remove Flair</a>
 {% endblock %}
