@@ -69,6 +69,7 @@ def minecraft_callback():
     data = request.args.get('data', '')
     minecraft = jwt.decode(data, JWT_SECRET, algorithms=['HS256'])
 
+    minecraft_uuid = minecraft['uuid']
     minecraft_username = minecraft['username']
     minecraft_ip = minecraft['ip']
 
@@ -81,6 +82,7 @@ def minecraft_callback():
         error = 'IP Address differs.'
         return render_template('error.html', error=error)
 
+    session['minecraft_uuid'] = minecraft_uuid
     session['minecraft_username'] = minecraft_username
     session['minecraft_ip'] = minecraft_ip
 
@@ -118,9 +120,10 @@ def flair_submit():
     bot.login(REDDIT_BOT_USERNAME, REDDIT_BOT_PASSWORD, disable_warning=True)
 
     reddit_username = session['reddit_username']
+    minecraft_uuid = session['minecraft_uuid']
     minecraft_username = session['minecraft_username']
 
-    minecraft_head_url = 'http://i.mc.buttscicl.es/f/' + minecraft_username + '/32.png'
+    minecraft_head_url = 'https://crafatar.com/avatars/' + minecraft_uuid + '?size=32'
     minecraft_head_path, headers = urllib.urlretrieve(minecraft_head_url)
     bot.upload_image(REDDIT_SUBREDDIT, minecraft_head_path, minecraft_username)
 

@@ -3,7 +3,7 @@
     <p>
       Reddit username: {{ session['reddit_username'] }}<br>
       Minecraft username: {{ session['minecraft_username'] }}<br>
-      Minecraft head: <img src="http://i.mc.buttscicl.es/f/{{ session['minecraft_username'] }}/32.png" style="border: 1px solid #ffffff;">
+      Minecraft head: <img src="https://crafatar.com/avatars/{{ session['minecraft_uuid'] }}?size=32" style="border: 1px solid #ffffff;">
     </p>
     <p>
       <a class="button alert" href="{{ url_for('flair_retry') }}">Retry</a>
