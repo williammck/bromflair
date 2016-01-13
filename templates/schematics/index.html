@@ -20,7 +20,7 @@
       {% for file in files %}
         <tr>
           <td><a href="https://brom.io/schematics/download/{{ file }}">{{ file }}</a></td>
-          <td><a href="{{ url_for('.remove', filename=file) }}">Remove</a></td>
+          <td><a href="#removeModal" data-toggle="modal" data-filename="{{ file }}">Remove</a></td>
         </tr>
       {% endfor %}
     </tbody>
@@ -52,4 +52,36 @@
       </div>
     </div>
   </div>
+  <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="removeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form action="{{ url_for('.remove') }}" method="POST" enctype="multipart/form-data">
+          {{ remove_form.csrf_token }}
+          {{ remove_form.filename }}
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="removeModalLabel">Remove Schematic</h4>
+          </div>
+          <div class="modal-body">
+              <p>Are you sure you want to remove the schematic "<span class="filename"></span>"?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            {{ remove_form.submit(class='btn btn-danger') }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script>
+    $('#removeModal').on('show.bs.modal', function (event) {
+      var link = $(event.relatedTarget);
+      var filename = link.data('filename');
+      var modal = $(this);
+      modal.find('.modal-content #filename').val(filename);
+      modal.find('.modal-body .filename').text(filename);
+    })
+  </script>
 {% endblock %}

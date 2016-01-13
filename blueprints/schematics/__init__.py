@@ -4,7 +4,7 @@ from flask.ext.wtf.file import FileField, FileAllowed, FileRequired
 from os import listdir
 from os.path import isfile, join
 from werkzeug.utils import secure_filename
-from wtforms import SubmitField
+from wtforms import HiddenField, SubmitField
 import os
 
 blueprint = Blueprint('schematics', __name__, url_prefix='/schematics')
@@ -25,12 +25,18 @@ class UploadForm(Form):
     submit = SubmitField('Upload')
 
 
+class RemoveForm(Form):
+    filename = HiddenField('Schematic to delete')
+    submit = SubmitField('Delete')
+
+
 @blueprint.route('/')
 def index():
     path = blueprint.config.get('SCHEMATICS_PATH')
     upload_form = UploadForm()
+    remove_form = RemoveForm()
     files = [f for f in listdir(path) if isfile(join(path, f))]
-    return render_template('schematics/index.html', files=files, upload_form=upload_form)
+    return render_template('schematics/index.html', files=files, upload_form=upload_form, remove_form=remove_form)
 
 
 @blueprint.route('/upload', methods=['POST'])
@@ -43,10 +49,13 @@ def upload():
     return redirect(url_for('.index'))
 
 
-@blueprint.route('/remove/<filename>')
-def remove(filename):
+@blueprint.route('/remove', methods=['POST'])
+def remove():
     path = blueprint.config.get('SCHEMATICS_PATH')
+    form = RemoveForm()
     files = [f for f in listdir(path) if isfile(join(path, f))]
+
+    filename = form.filename.data
     if filename not in files:
         return redirect(url_for('.index'))
 
