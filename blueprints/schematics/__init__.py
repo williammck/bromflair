@@ -20,7 +20,7 @@ def record_config(setup_state):
 class UploadForm(Form):
     schematic = FileField('Schematic to upload', validators=[
         FileRequired(),
-        FileAllowed(['jpg', 'png'], 'Schematics only!')
+        FileAllowed(['schematic'], 'Schematics only!')
     ])
     submit = SubmitField('Upload')
 
