@@ -1,5 +1,6 @@
 from flask import Flask
 from flask.ext.session import Session
+from flask.ext.wtf import CsrfProtect
 
 
 def create_app(config_override=None):
@@ -10,6 +11,7 @@ def create_app(config_override=None):
     application.config.from_object(config_override)
 
     Session(application)
+    CsrfProtect(application)
 
     from blueprints.api import api
     api.init_app(application)

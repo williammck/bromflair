@@ -20,7 +20,7 @@
       {% for file in files %}
         <tr>
           <td>{{ file }}</td>
-          <td></td>
+          <td><a href="{{ url_for('.remove', filename=file) }}">Remove</a></td>
         </tr>
       {% endfor %}
     </tbody>
@@ -30,7 +30,8 @@
   <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <form action="" method="POST" enctype="multipart/form-data">
+        <form action="{{ url_for('.upload') }}" method="POST" enctype="multipart/form-data">
+          {{ upload_form.csrf_token }}
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -39,13 +40,13 @@
           </div>
           <div class="modal-body">
             <fieldset class="form-group">
-              <label for="schematic">Schematic to upload:</label>
-              <input type="file" name="schematic" id="schematic" class="form-control-file">
+              {{ upload_form.schematic.label }}
+              {{ upload_form.schematic(class='form-control-file') }}
             </fieldset>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Upload</button>
+            {{ upload_form.submit(class='btn btn-primary') }}
           </div>
         </form>
       </div>
