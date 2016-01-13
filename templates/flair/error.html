@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block header_content %}
+  <br>
+  <h4>Flair</h4>
+{% endblock %}
+{% block content %}
+  <p>{{ error }}</p>
+  <a class="btn btn-primary" href="{{ url_for('.index') }}">Retry</a>
+{% endblock %}

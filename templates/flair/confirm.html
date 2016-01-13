@@ -1,10 +1,14 @@
-{% extends 'layout.html' %}
+{% extends 'base.html' %}
+{% block header_content %}
+  <br>
+  <h4>Flair</h4>
+{% endblock %}
 {% block content %}
   <p>
     Reddit username: {{ session['reddit_username'] }}<br>
     Minecraft username: {{ session['minecraft_username'] }}<br>
     Minecraft head: <img src="https://crafatar.com/avatars/{{ session['minecraft_uuid'] }}?size=32" style="border: 1px solid #ffffff;">
   </p>
-  <a class="btn btn-danger" href="{{ url_for('flair_retry') }}">Retry</a>
-  <a class="btn btn-success" href="{{ url_for('flair_submit') }}">Submit!</a>
+  <a class="btn btn-danger" href="{{ url_for('.retry') }}">Retry</a>
+  <a class="btn btn-success" href="{{ url_for('.submit') }}">Submit!</a>
 {% endblock %}
