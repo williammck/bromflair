@@ -42,7 +42,11 @@ class MinecraftAuthentication(Resource):
     get_parser.add_argument("username", type=str)
 
     def get(self):
-        result = check_authenticated_ip(request.remote_addr)
+        if 'X-Forwarded-For' in request.headers:
+            ip = request.headers['X-Forwarded-For']
+        else:
+            ip = request.remote_addr
+        result = check_authenticated_ip(ip)
 
         return {'verified': bool(result)}
 
