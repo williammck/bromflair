@@ -8,6 +8,10 @@ PORT = "5000"
 SECRET_KEY = "changeme"
 SESSION_TYPE = "redis"
 
+RECAPTCHA_PUBLIC_KEY = 'reCAPTHCASiteKey'
+RECAPTCHA_PRIVATE_KEY = 'reCAPTCHASecretKey'
+RECAPTCHA_DATA_ATTRS = {'theme': 'dark'}
+
 REDDIT_CLIENT_ID = "RedditID"
 REDDIT_CLIENT_SECRET = "RedditSecret"
 REDDIT_REDIRECT_URI = "http://example.com/reddit/callback"

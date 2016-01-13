@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for
-from flask.ext.wtf import Form
+from flask.ext.wtf import Form, RecaptchaField
 from flask.ext.wtf.file import FileField, FileAllowed, FileRequired
 from os import listdir
 from os.path import isfile, join
@@ -22,11 +22,13 @@ class UploadForm(Form):
         FileRequired(),
         FileAllowed(['schematic'], 'Schematics only!')
     ])
+    recaptcha = RecaptchaField()
     submit = SubmitField('Upload')
 
 
 class RemoveForm(Form):
     filename = HiddenField('Schematic to delete')
+    recaptcha = RecaptchaField()
     submit = SubmitField('Delete')
 
 
