@@ -28,7 +28,6 @@ class UploadForm(Form):
 
 class RemoveForm(Form):
     filename = HiddenField('Schematic to delete')
-    recaptcha = RecaptchaField()
     submit = SubmitField('Delete')
 
 
