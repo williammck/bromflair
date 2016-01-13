@@ -50,5 +50,5 @@ def remove(filename):
     if filename not in files:
         return redirect(url_for('.index'))
 
-    os.remove(path + filename)
+    os.renames(path + filename, path + 'deleted/' + filename)
     return redirect(url_for('.index'))

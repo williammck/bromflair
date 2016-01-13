@@ -19,7 +19,7 @@
     <tbody>
       {% for file in files %}
         <tr>
-          <td>{{ file }}</td>
+          <td><a href="https://brom.io/schematics/download/{{ file }}">{{ file }}</a></td>
           <td><a href="{{ url_for('.remove', filename=file) }}">Remove</a></td>
         </tr>
       {% endfor %}

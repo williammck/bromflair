@@ -22,7 +22,8 @@ def auth():
         session['minecraft_username'] = minecraft['username']
         session['minecraft_ip'] = minecraft['ip']
 
-        return redirect(session['mc_auth_callback_url'])
+        redirect_url = session.pop('mc_auth_callback_url', None)
+        return redirect(redirect_url)
 
     else:
         return render_template('id/auth.html', ip=ip)
