@@ -34,9 +34,13 @@ class RemoveForm(Form):
 @blueprint.route('/')
 def index():
     path = blueprint.config.get('SCHEMATICS_PATH')
+    os.chdir(path)
+
     upload_form = UploadForm()
     remove_form = RemoveForm()
-    files = [f for f in listdir(path) if isfile(join(path, f))]
+
+    files = filter(os.path.isfile, os.listdir(path))
+    files.sort(key=os.path.getmtime, reverse=True)
     return render_template('schematics/index.html', files=files, upload_form=upload_form, remove_form=remove_form)
 
 
