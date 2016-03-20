@@ -9,22 +9,24 @@
   </button>
   <br>
   <br>
-  <table class="table table-inverse table-bordered text-xs-left">
-    <thead>
-      <tr>
-        <th>Filename</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for file in files %}
+  <div class="table-responsive">
+    <table class="table table-inverse table-bordered text-xs-left">
+      <thead>
         <tr>
-          <td><a href="http://p.brom.io/schematics/{{ file }}">{{ file }}</a></td>
-          <td><a href="#removeModal" data-toggle="modal" data-filename="{{ file }}">Remove</a></td>
+          <th>Filename</th>
+          <th>Actions</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {% for file in files %}
+          <tr>
+            <td><a href="http://p.brom.io/schematics/{{ file }}">{{ file }}</a></td>
+            <td><a href="#removeModal" data-toggle="modal" data-filename="{{ file }}">Remove</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 {% endblock %}
 {% block javascript %}
   <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
