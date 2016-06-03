@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for
-from flask.ext.restful import Resource
-from flask.ext.restful.reqparse import RequestParser
+from flask_restful import Resource
+from flask_restful.reqparse import RequestParser
 import redis
 
 from blueprints.api import api

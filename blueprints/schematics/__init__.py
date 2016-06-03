@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for
-from flask.ext.wtf import Form, RecaptchaField
-from flask.ext.wtf.file import FileField, FileAllowed, FileRequired
+from flask_wtf import Form, RecaptchaField
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 from os import listdir
 from os.path import isfile, join
 from werkzeug.utils import secure_filename

@@ -1,6 +1,7 @@
+import click
 from flask import Flask
-from flask.ext.session import Session
-from flask.ext.wtf import CsrfProtect
+from flask_session import Session
+from flask_wtf import CsrfProtect
 
 
 def create_app(config_override=None):
@@ -19,5 +20,10 @@ def create_app(config_override=None):
     import blueprints
     for blueprint in blueprints.blueprints:
         application.register_blueprint(blueprint)
+
+    @application.cli.command()
+    def routes():
+        for rule in application.url_map.iter_rules():
+            click.echo("%s %s" % (rule, rule.endpoint))
 
     return application
