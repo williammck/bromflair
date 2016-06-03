@@ -35,7 +35,10 @@ def mc_auth(callback_url):
 
 
 def check_authenticated_ip(ip):
-    return r.hgetall('brom:id:mc_auth:' + ip)
+    info = r.hgetall('brom:id:mc_auth:' + ip)
+    r.delete('brom:id:mc_auth:' + ip)
+
+    return info
 
 
 class MinecraftAuthentication(Resource):
