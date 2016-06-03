@@ -19,20 +19,22 @@ def record_config(setup_state):
     blueprint.config = dict([(key, value) for (key, value) in app.config.iteritems()])
 
     global bot
-    bot = praw.Reddit('BromFlair v1.0 by williammck')
-    bot.login(
-            blueprint.config.get('REDDIT_BOT_USERNAME'),
-            blueprint.config.get('REDDIT_BOT_PASSWORD'),
-            disable_warning=True
+    bot = praw.Reddit(
+        'script:bromweb.flair.mod:v1.0 (by /u/williammck)',
+        oauth_client_id=blueprint.config.get('REDDIT_BOT_CLIENT_ID'),
+        oauth_client_secret=blueprint.config.get('REDDIT_BOT_CLIENT_SECRET'),
+        oauth_redirect_uri='http://www.example.com/unused/redirect/uri',
+        oauth_grant_type='password',
+        user=blueprint.config.get('REDDIT_BOT_USERNAME'),
+        pswd=blueprint.config.get('REDDIT_BOT_PASSWORD'),
     )
-    bot.config.decode_html_entities = True
 
     global oauth
-    oauth = praw.Reddit('BromFlair v1.0 OAuth by williammck')
-    oauth.set_oauth_app_info(
-            blueprint.config.get('REDDIT_CLIENT_ID'),
-            blueprint.config.get('REDDIT_CLIENT_SECRET'),
-            blueprint.config.get('REDDIT_REDIRECT_URI')
+    oauth = praw.Reddit(
+        'web:bromweb.flair.client:v1.0 (by /u/williammck)',
+        oauth_client_id=blueprint.config.get('REDDIT_CLIENT_ID'),
+        oauth_client_secret=blueprint.config.get('REDDIT_CLIENT_SECRET'),
+        oauth_redirect_uri=blueprint.config.get('REDDIT_REDIRECT_URI')
     )
 
 
@@ -103,6 +105,8 @@ def submit():
     minecraft_uuid = session['minecraft_uuid']
     minecraft_username = session['minecraft_username']
 
+    bot.get_access_information(None)
+
     minecraft_head_url = 'https://crafatar.com/avatars/' + minecraft_uuid + '?size=32'
     minecraft_head_path, headers = urllib.urlretrieve(minecraft_head_url)
     bot.upload_image(blueprint.config.get('REDDIT_SUBREDDIT'), minecraft_head_path, minecraft_username)
@@ -111,8 +115,8 @@ def submit():
     stylesheet = bot.get_stylesheet(blueprint.config.get('REDDIT_SUBREDDIT'))['stylesheet']
     if flair_css not in stylesheet:
         stylesheet = stylesheet.replace(
-                blueprint.config.get('REDDIT_CSS_MARKER'),
-                flair_css + blueprint.config.get('REDDIT_CSS_MARKER')
+            blueprint.config.get('REDDIT_CSS_MARKER'),
+            flair_css + blueprint.config.get('REDDIT_CSS_MARKER')
         )
         bot.set_stylesheet(blueprint.config.get('REDDIT_SUBREDDIT'), stylesheet)
 
@@ -131,7 +135,10 @@ def remove():
         return redirect(url_for('.index'))
 
     reddit_username = session['reddit_username']
+
+    bot.get_access_information(None)
     bot.set_flair(blueprint.config.get('REDDIT_SUBREDDIT'), reddit_username)
+
     return redirect(url_for('.done'))
 
 
