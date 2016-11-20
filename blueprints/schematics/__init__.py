@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for
-from flask_wtf import Form, RecaptchaField
+from flask_wtf import FlaskForm, RecaptchaField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from os import listdir
 from os.path import isfile, join
@@ -17,7 +17,7 @@ def record_config(setup_state):
     blueprint.config = dict([(key, value) for (key, value) in app.config.iteritems()])
 
 
-class UploadForm(Form):
+class UploadForm(FlaskForm):
     schematic = FileField('Schematic to upload', validators=[
         FileRequired(),
         FileAllowed(['schematic'], 'Schematics only!')
@@ -26,7 +26,7 @@ class UploadForm(Form):
     submit = SubmitField('Upload')
 
 
-class RemoveForm(Form):
+class RemoveForm(FlaskForm):
     filename = HiddenField('Schematic to delete')
     submit = SubmitField('Delete')
 
