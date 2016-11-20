@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Brom</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.min.css">
     <style>
       html {
         min-height: 100%;
@@ -44,7 +44,7 @@
     <br>
     <div class="container">
       <div class="row">
-        <div class="col-sm-8 col-sm-offset-2 text-xs-center">
+        <div class="col-sm-8 offset-sm-2 text-xs-center">
           <div class="card card-inverse">
             <div class="card-block">
               <h1><img src="{{ url_for('static', filename='img/logo.png') }}"></h1>
@@ -54,7 +54,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-8 col-sm-offset-2 text-xs-center">
+        <div class="col-sm-8 offset-sm-2 text-xs-center">
           <div class="card card-inverse">
             <div class="card-block">
               {% block content %}{% endblock %}
@@ -63,7 +63,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-8 col-sm-offset-2 text-xs-center">
+        <div class="col-sm-8 offset-sm-2 text-xs-center">
           <div class="card card-inverse">
             <div class="card-block">
               Issues? Contact <a href="https://www.reddit.com/message/compose?to=williammck">William McKinnerney</a>.
@@ -72,8 +72,9 @@
         </div>
       </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/js/bootstrap.js"></script>
     {% block javascript %}{% endblock %}
   </body>
 </html>
