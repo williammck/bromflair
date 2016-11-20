@@ -18,6 +18,8 @@ def auth():
 
     minecraft = check_authenticated_ip(ip)
     if minecraft:
+        r.delete('brom:id:mc_auth:' + ip)
+
         session['minecraft_uuid'] = minecraft['uuid']
         session['minecraft_username'] = minecraft['username']
         session['minecraft_ip'] = minecraft['ip']
@@ -36,7 +38,6 @@ def mc_auth(callback_url):
 
 def check_authenticated_ip(ip):
     info = r.hgetall('brom:id:mc_auth:' + ip)
-    r.delete('brom:id:mc_auth:' + ip)
 
     return info
 
