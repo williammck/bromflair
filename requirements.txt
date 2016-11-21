@@ -2,6 +2,5 @@ Flask==0.11.1
 Flask-RESTful==0.3.5
 Flask-Session==0.3.0
 Flask-WTF==0.13.1
-# praw==3.5.0
-git+https://github.com/praw-dev/praw.git@master#egg=praw
+praw==4.0.0rc2
 redis==2.10.5

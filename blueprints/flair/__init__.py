@@ -20,28 +20,26 @@ def record_config(setup_state):
 
     global bot
     bot = praw.Reddit(
-        'script:bromweb.flair.mod:v1.0 (by /u/williammck)',
-        oauth_client_id=blueprint.config.get('REDDIT_BOT_CLIENT_ID'),
-        oauth_client_secret=blueprint.config.get('REDDIT_BOT_CLIENT_SECRET'),
-        oauth_redirect_uri='http://www.example.com/unused/redirect/uri',
-        oauth_grant_type='password',
-        user=blueprint.config.get('REDDIT_BOT_USERNAME'),
-        pswd=blueprint.config.get('REDDIT_BOT_PASSWORD'),
+        user_agent='script:bromweb.flair.mod:v1.0 (by /u/williammck)',
+        client_id=blueprint.config.get('REDDIT_BOT_CLIENT_ID'),
+        client_secret=blueprint.config.get('REDDIT_BOT_CLIENT_SECRET'),
+        username=blueprint.config.get('REDDIT_BOT_USERNAME'),
+        password=blueprint.config.get('REDDIT_BOT_PASSWORD'),
     )
 
     global oauth
     oauth = praw.Reddit(
-        'web:bromweb.flair.client:v1.0 (by /u/williammck)',
-        oauth_client_id=blueprint.config.get('REDDIT_CLIENT_ID'),
-        oauth_client_secret=blueprint.config.get('REDDIT_CLIENT_SECRET'),
-        oauth_redirect_uri=blueprint.config.get('REDDIT_REDIRECT_URI')
+        user_agent='web:bromweb.flair.client:v1.0 (by /u/williammck)',
+        client_id=blueprint.config.get('REDDIT_CLIENT_ID'),
+        client_secret=blueprint.config.get('REDDIT_CLIENT_SECRET'),
+        redirect_uri=blueprint.config.get('REDDIT_REDIRECT_URI')
     )
 
 
 @blueprint.route('/')
 def index():
     state = hashlib.md5(os.urandom(24)).hexdigest()
-    url = oauth.get_authorize_url(state, 'identity')
+    url = oauth.auth.url(['identity'], state, 'temporary')
     return render_template('flair/index.html', url=url)
 
 
@@ -49,10 +47,12 @@ def index():
 def callback():
     code = request.args.get('code', '')
 
-    oauth.get_access_information(code)
-    reddit_username = oauth.get_me().name
+    oauth.auth.authorize(code)
 
+    reddit_username = oauth.user.me().name
     session['reddit_username'] = reddit_username
+
+    oauth.read_only = True
 
     return redirect(url_for('.menu'))
 
@@ -105,27 +105,27 @@ def submit():
     minecraft_uuid = session['minecraft_uuid']
     minecraft_username = session['minecraft_username']
 
-    bot.get_access_information(None)
+    subreddit = bot.subreddit(blueprint.config.get('REDDIT_SUBREDDIT'))
 
     minecraft_head_url = 'https://crafatar.com/avatars/' + minecraft_uuid + '?size=32'
     minecraft_head_path, headers = urllib.urlretrieve(minecraft_head_url)
-    bot.upload_image(blueprint.config.get('REDDIT_SUBREDDIT'), minecraft_head_path, minecraft_username)
+    subreddit.stylesheet.upload(minecraft_username, minecraft_head_path)
 
-    flair_css = ".flair-" + minecraft_username + "{ background: url(%%" + minecraft_username + "%%); }\n"
-    stylesheet = bot.get_stylesheet(blueprint.config.get('REDDIT_SUBREDDIT'))['stylesheet']
+    flair_css = '.flair-' + minecraft_username + ' { background: url(%%' + minecraft_username + '%%) }\n'
+    stylesheet = subreddit.stylesheet().stylesheet
     if flair_css not in stylesheet:
         stylesheet = stylesheet.replace(
             blueprint.config.get('REDDIT_CSS_MARKER'),
             flair_css + blueprint.config.get('REDDIT_CSS_MARKER')
         )
-        bot.set_stylesheet(blueprint.config.get('REDDIT_SUBREDDIT'), stylesheet)
+        subreddit.stylesheet.update(stylesheet, 'Added flair for ' + minecraft_username)
 
     if reddit_username.lower() == minecraft_username.lower():
         flair_text = ''
     else:
         flair_text = minecraft_username
 
-    bot.set_flair(blueprint.config.get('REDDIT_SUBREDDIT'), reddit_username, flair_text, minecraft_username)
+    subreddit.flair.set(reddit_username, flair_text, minecraft_username)
     return redirect(url_for('.done'))
 
 
@@ -136,8 +136,8 @@ def remove():
 
     reddit_username = session['reddit_username']
 
-    bot.get_access_information(None)
-    bot.set_flair(blueprint.config.get('REDDIT_SUBREDDIT'), reddit_username)
+    subreddit = bot.subreddit(blueprint.config.get('REDDIT_SUBREDDIT'))
+    subreddit.flair.delete(reddit_username)
 
     return redirect(url_for('.done'))
 
