@@ -45,7 +45,10 @@ def index():
 
 @blueprint.route('/callback')
 def callback():
-    code = request.args.get('code', '')
+    if 'error' in request.args:
+        return redirect(url_for('.index'))
+
+    code = request.args.get('code')
 
     oauth.auth.authorize(code)
 
