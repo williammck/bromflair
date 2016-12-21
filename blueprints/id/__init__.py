@@ -21,8 +21,8 @@ def auth():
         r.delete('brom:id:mc_auth:' + ip)
 
         session['minecraft_uuid'] = minecraft['uuid']
-        session['minecraft_username'] = minecraft['username']
-        session['minecraft_ip'] = minecraft['ip']
+        session['minecraft_username'] = minecraft['display_name']
+        session['minecraft_ip'] = minecraft['ip_address']
 
         redirect_url = session.pop('mc_auth_callback_url', None)
         return redirect(redirect_url)
@@ -43,9 +43,6 @@ def check_authenticated_ip(ip):
 
 
 class MinecraftAuthentication(Resource):
-    get_parser = RequestParser()
-    get_parser.add_argument("username", type=str)
-
     def get(self):
         if 'X-Forwarded-For' in request.headers:
             ip = request.headers['X-Forwarded-For']
